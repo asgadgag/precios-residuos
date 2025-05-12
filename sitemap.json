@@ -1,0 +1,40 @@
+{
+  "_id": "fachadas-particiones-recursivo",
+  "startUrl": [
+    "https://generadordeprecios.info/obra_nueva/Fachadas_y_particiones.html"
+  ],
+  "selectors": [
+    {
+      "id": "link_unidad",
+      "type": "SelectorLink",
+      "parentSelectors": ["_root", "link_unidad"],
+      "selector": "a[href*='/obra_nueva/Fachadas_y_particiones/'][href$='.html']",
+      "multiple": true,
+      "delay": 200
+    },
+    {
+      "id": "codigo_producto",
+      "type": "SelectorText",
+      "parentSelectors": ["link_unidad"],
+      "selector": ".text-center span.text-uppercase",
+      "multiple": false,
+      "delay": 0
+    },
+    {
+      "id": "material",
+      "type": "SelectorText",
+      "parentSelectors": ["link_unidad"],
+      "selector": ".d-none.px-3 span",
+      "multiple": false,
+      "delay": 0
+    },
+    {
+      "id": "precio",
+      "type": "SelectorText",
+      "parentSelectors": ["link_unidad"],
+      "selector": "h4:contains('Precio')",
+      "multiple": false,
+      "delay": 0
+    }
+  ]
+}

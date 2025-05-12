@@ -2,8 +2,8 @@ name: 📅 Daily Scrape
 
 on:
   schedule:
-    - cron: '0 6 * * *'       # Ejecuta cada día a las 06:00 UTC
-  workflow_dispatch:         # Permite disparo manual
+    - cron: '0 6 * * *'       # Ejecuta cada día a las 06:00 UTC (08:00 CEST)
+  workflow_dispatch:         # Permite ejecución manual
 
 jobs:
   scrape:
@@ -18,11 +18,8 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run scraper
-        run: npm run scrape
+      - name: Run scraper via npx
+        run: npx -p website-scraper website-scraper --config sitemap.json --output ./data
 
       - name: Upload results
         uses: actions/upload-artifact@v4

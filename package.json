@@ -1,0 +1,11 @@
+{
+  "name": "precios-residuos",
+  "version": "1.0.0",
+  "description": "Scraper diario de generadordeprecios.info",
+  "scripts": {
+    "scrape": "website-scraper --config sitemap.json --output ./data"
+  },
+  "devDependencies": {
+    "website-scraper": "^5.3.1"
+  }
+}

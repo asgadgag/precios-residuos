@@ -2,8 +2,8 @@ name: Daily Scrape
 
 on:
   schedule:
-    - cron: '0 06 * * *'      # Todos los días a las 06:00 UTC (Madrid = UTC+2)
-  workflow_dispatch:         # Permite ejecución manual
+    - cron: '0 6 * * *'      # Todos los días a las 06:00 UTC (08:00 CEST)
+  workflow_dispatch:        # Permite ejecución manual
 
 jobs:
   scrape:
@@ -11,21 +11,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4           # Clona tu repo al runner 
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4         # Instala Node.js 
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      - name: Install scraper CLI
-        run: npm install -g website-scraper # Instala la CLI de website-scraper 
+      - name: Install website-scraper
+        run: npm install -g website-scraper
 
       - name: Run scraper
         run: website-scraper --config sitemap.json --output ./data
 
       - name: Upload results
-        uses: actions/upload-artifact@v3    # Guarda ./data como artefacto 
+        uses: actions/upload-artifact@v4   # ← Cambiado a v4 para corregir el error
         with:
           name: scrape-results
           path: data/

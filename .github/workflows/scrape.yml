@@ -2,30 +2,30 @@ name: Daily Scrape
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # Todos los días a las 06:00 UTC
-  workflow_dispatch:     # Permite ejecución manual
+    - cron: '0 06 * * *'      # Todos los días a las 06:00 UTC (Madrid = UTC+2)
+  workflow_dispatch:         # Permite ejecución manual
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4       # Clona tu repo al runner :contentReference[oaicite:8]{index=8}
+        uses: actions/checkout@v4           # Clona tu repo al runner 
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4     # Instala Node.js :contentReference[oaicite:9]{index=9}
+        uses: actions/setup-node@v4         # Instala Node.js 
         with:
           node-version: '16'
 
       - name: Install scraper CLI
-        run: npm install -g website-scraper
+        run: npm install -g website-scraper # Instala la CLI de website-scraper 
 
       - name: Run scraper
-        run: |
-          website-scraper --config sitemap.json --output ./data
+        run: website-scraper --config sitemap.json --output ./data
 
       - name: Upload results
-        uses: actions/upload-artifact@v3  # Guarda carpeta ./data como artefacto :contentReference[oaicite:10]{index=10}
+        uses: actions/upload-artifact@v3    # Guarda ./data como artefacto 
         with:
           name: scrape-results
           path: data/

@@ -2,15 +2,15 @@ name: 📅 Daily Scrape
 
 on:
   schedule:
-    - cron: '0 6 * * *'      # Cada día a las 06:00 UTC
-  workflow_dispatch:        # Permite disparo manual
+    - cron: '0 6 * * *'       # Cada día a las 06:00 UTC (08:00 CEST)
+  workflow_dispatch:         # Permite disparo manual
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -18,8 +18,13 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install dependencies
-        run: npm install        # ← Cambiado de `npm ci` a `npm install`
+      - name: Generate package-lock.json
+        run: npm install --package-lock-only
+        # Esto crea/actualiza package-lock.json sin instalar módulos
+
+      - name: Clean install using npm ci
+        run: npm ci
+        # Ahora sí disponemos de package-lock.json para npm ci
 
       - name: Run scraper via npx
         run: npx website-scraper --config sitemap.json --output ./data

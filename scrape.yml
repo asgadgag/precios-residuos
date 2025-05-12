@@ -1,0 +1,6 @@
+name: Daily Scrape
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # Todos los días a las 06:00 UTC
+  workflow_dispatch:     # Permite ejecución manual

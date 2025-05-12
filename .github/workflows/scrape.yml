@@ -2,8 +2,8 @@ name: 📅 Daily Scrape
 
 on:
   schedule:
-    - cron: '0 6 * * *'       # Cada día a las 06:00 UTC (08:00 CEST)
-  workflow_dispatch:         # Permite disparo manual
+    - cron: '0 06 * * *'      # Cada día a las 06:00 UTC (08:00 CEST)
+  workflow_dispatch:        # Permite ejecución manual
 
 jobs:
   scrape:
@@ -11,26 +11,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4    # Clona tu repo al runner :contentReference[oaicite:4]{index=4}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4  # Prepara Node.js para npx :contentReference[oaicite:5]{index=5}
         with:
           node-version: '16'
 
-      - name: Generate package-lock.json
-        run: npm install --package-lock-only
-        # Esto crea/actualiza package-lock.json sin instalar módulos
-
-      - name: Clean install using npm ci
-        run: npm ci
-        # Ahora sí disponemos de package-lock.json para npm ci
-
       - name: Run scraper via npx
         run: npx website-scraper --config sitemap.json --output ./data
+        # npx gestiona la descarga y ejecución sin package.json ni instalación previa :contentReference[oaicite:6]{index=6}
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: scrape-results
-          path: data/
+          path: data/                 # Publica ./data/ como artefacto :contentReference[oaicite:7]{index=7}

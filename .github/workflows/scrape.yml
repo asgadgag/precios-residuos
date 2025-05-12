@@ -2,8 +2,8 @@ name: 📅 Daily Scrape
 
 on:
   schedule:
-    - cron: '0 06 * * *'      # Cada día a las 06:00 UTC (08:00 CEST)
-  workflow_dispatch:        # Permite ejecución manual
+    - cron: '0 6 * * *'       # Ejecuta cada día a las 06:00 UTC
+  workflow_dispatch:         # Permite disparo manual
 
 jobs:
   scrape:
@@ -11,19 +11,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4    # Clona tu repo al runner :contentReference[oaicite:4]{index=4}
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4  # Prepara Node.js para npx :contentReference[oaicite:5]{index=5}
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      - name: Run scraper via npx
-        run: npx website-scraper --config sitemap.json --output ./data
-        # npx gestiona la descarga y ejecución sin package.json ni instalación previa :contentReference[oaicite:6]{index=6}
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper
+        run: npm run scrape
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: scrape-results
-          path: data/                 # Publica ./data/ como artefacto :contentReference[oaicite:7]{index=7}
+          path: data/
